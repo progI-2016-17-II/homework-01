@@ -97,10 +97,13 @@ tarantino_freq
 table(tarantino_freq$movie,droplevels(tarantino_freq$word))
 
 # 11. halál és szitokszavak száma
-# nincs a halálról adat
-# szitokszavak száma:
-# ehhez felhasznalom a korábban létrehozott tarantino_profane subsetet
-table(tarantino_profane$movie, tarantino_profane$profane)
+# halál ott van, ahol a profane FALSE, illetve a word NA
+# a kérdés megválaszolásához elegendő kiiratni
+# a profane szerinti kereszttáblát a filmekre
+# a TRUE mutatja a szitokszavak számát, a FALSE meg a halálokét
+table(tarantino$movie, tarantino$profane)
+# igen, van olyan amiben több halál volt, mint szitkozódás:
+# ez a  Kill Bill: Vol. 1
 
 # 12. tsv kiirása
 write.table(
