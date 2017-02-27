@@ -26,13 +26,13 @@ tarantino
 tarantino["year"] <- NA
 
 # A "year" oszlop feltöltése adatokkal
-tarantino$year[tarantino$movie =="Reservoir Dogs"] <- 1992
-tarantino$year[tarantino$movie =="Pulp Fiction"] <- 1994
-tarantino$year[tarantino$movie =="Kill Bill: Vol. 1"] <- 2003
-tarantino$year[tarantino$movie =="Kill Bill: Vol. 2"] <- 2004
-tarantino$year[tarantino$movie =="Jackie Brown"] <- 1997
-tarantino$year[tarantino$movie =="Inglorious Basterds"] <- 2009
-tarantino$year[tarantino$movie =="Django Unchained"] <- 2012
+tarantino$year[tarantino$movie == "Reservoir Dogs"] <- 1992
+tarantino$year[tarantino$movie == "Pulp Fiction"] <- 1994
+tarantino$year[tarantino$movie == "Kill Bill: Vol. 1"] <- 2003
+tarantino$year[tarantino$movie == "Kill Bill: Vol. 2"] <- 2004
+tarantino$year[tarantino$movie == "Jackie Brown"] <- 1997
+tarantino$year[tarantino$movie == "Inglorious Basterds"] <- 2009
+tarantino$year[tarantino$movie == "Django Unchained"] <- 2012
 
 #---------------------------II.04 feladat---------------------------
 # Melyik filmben hangzott el a legkorábban szitokszó? 
@@ -72,6 +72,8 @@ shitlessfilmcim
 
 is.na(tarantino$word)
 list(which(is.na(tarantino$word)))
+sorokszama <- (which(is.na(tarantino$word)))
+length(sorokszama)
 
 #---------------------------II.08 feladat---------------------------
 # Nézd meg, milyen adattípusúak a movie és word oszlopok!
@@ -109,7 +111,7 @@ top3freq
 tarantino["szo"] <- NA
 
 # A "szo" oszlop feltöltése csak azokkal az adatokkal, amik most kellenek:
-# azaz, ha a filhez tartozik a top3 szó közül valamelyik
+# azaz, ha a filmekhez tartozik a top3 szó közül valamelyik (az adott sorban)
 # így a többi érték NA marad és nem veszi figyelembe a kereszttábla
 tarantino$szo[tarantino$word =="fucking"] <- "fucking"
 tarantino$szo[tarantino$word =="shit"] <- "shit"
@@ -122,23 +124,27 @@ table(tarantino$movie, tarantino$szo)
 # Nézd meg, melyik filmben hány halál történt és hány szitokszó hangzott el! 
 # Volt olyan film, ahol több halál volt, mint szitkozódás?
 
-
+# új oszlop, ahol csak ott lesznek értékek, ahol történt halál
 tarantino["halal"] <- NA
 tarantino$halal[tarantino$profane =="FALSE"] <- "FALSE"
 table(tarantino$movie, tarantino$halal)
 
-
+# új oszlop, ahol csak ott lesznek értékek, ahol történt szitkozódás
 tarantino["szitokszo"] <- NA
 tarantino$szitokszo[tarantino$profane =="TRUE"] <- "TRUE"
 table(tarantino$movie, tarantino$szitokszo)
 
+# a kereszttáblák mátrixokká alakítása
 halaltabla <- table(tarantino$movie, tarantino$halal)
 halaltabla
 szitokszotabla <- table(tarantino$movie, tarantino$szitokszo)
 szitokszotabla
 
+# megnézni filmenként, miből volt több
 tobbhalal <- halaltabla > szitokszotabla
 tobbhalal
+
+# egyedül a Kill Bill: Vol. 1 esetén haltak meg többen, mint történt káromkodás
 
 #---------------------------II.12 feladat---------------------------
 # Írd ki tsv formátumba a datasetet egy data nevű mappába datasetneve.tsv néven 
