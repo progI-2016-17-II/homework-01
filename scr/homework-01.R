@@ -163,6 +163,3 @@ git branch my-solutins-mp
 git chechout my-solutins-mp
 git push my-solutins-mp
 
-
-
-
