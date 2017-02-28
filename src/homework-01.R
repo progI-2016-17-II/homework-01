@@ -105,28 +105,26 @@ table(topszavak$movie, topszavak$word) #kereszttábla
 #II.10 feladat: kész
 
 
-#II.11 feladat:
+#II.11 feladat: Hány halál és hány szitokszó? Melyiknél van kevesebb szitokszó, mint halál?
 
-table(tarantino$movie, tarantino$profane)
+class(tarantino$profane) #Ellenőrzöm a profane típusát
 
-#Ellenőrzöm a profane típusát, majd átírom numericre.
-class(tarantino$profane)
-tarantino$profane = as.numeric(tarantino$profane)
-is.numeric(tarantino$profane)
+tarantino$profane = as.numeric(tarantino$profane) #átírom numericre.
 
-#Felcímkézem
-tarantino$profane <- factor(
+is.numeric(tarantino$profane) # átírás ell.
+
+
+tarantino$profane <- factor( #Felcímkézem
   tarantino$profane,
   levels = c(0, 1),
   labels = c("halal", "szitokszo")
 )
-#Kereszttábla
-table(tarantino$movie, tarantino$profane)
 
-#Van-e olyan, ahol több a halál, mint a szitokszó?
-#M: Kill Bill: Vol. 1
+table(tarantino$movie, tarantino$profane) #Kereszttábla, innen látszik, hogy a Kill Bill 1-nél: sz.szó<halál
+#II.11 feladat:kész
 
-## Fájlok kiírása 11. fel.
+
+#II.12 feladat: Kiírni TSV-be a datasetet
 
 write.table(
   tarantino,
@@ -135,10 +133,12 @@ write.table(
   row.names = F,
   fileEncoding = "utf-8"
 )
+#II.12 feladat: kész
 
-## TSV olvasása, majd törlése
 
-tarantinotsv <-
+#II.13 TSV beolvasása, majd törlése
+
+tarantino2 <- #beolvasás
   read.table(
     file = "data/tarantino.tsv",
     header = T,
@@ -147,4 +147,6 @@ tarantinotsv <-
     fileEncoding = "utf-8"
   )
 
-rm(tarantinotsv)
+rm(tarantinotsv) #törlés
+
+
