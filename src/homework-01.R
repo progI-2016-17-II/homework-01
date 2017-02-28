@@ -1,102 +1,150 @@
-# 1. feladat
-
+### I. feladat: Fejléckészítés
 ## Házi feladat 1
 ## Programozás I.
 ## 2016/17. II. félév
 ## Szilágyi Ádám
 ## 2017.02.28
 
-# 1. feladat kész (fejléc + commitolás)
+### I. feladat: kész
 
-# 2. feladat  Package installálása, behívása
+###II. feladat
+#II.1 feladat: Package installálása, behívása
+
 install.packages("fivethirtyeight")
 library(fivethirtyeight)
-data(package="fivethirtyeight")
+data(package = "fivethirtyeight")
+#II.1 feladat: kész
 
-#data-set beolvasása
+#II.2 feladat: Beolvasni a tarantino datasetet
+
 data(fivethirtyeight$tarantino)
+#II.2 feladat: kész
 
-#Bekerülési év beírása
-tarantino$year <- 0
+
+#II.3 feladat: Mozikba kerülés évének beírása
+
+tarantino$year <- "evszam"
 
 tarantino$year[tarantino$movie == "Reservoir Dogs"] <- 1992
-
-## Legkorábban
-tarantino$movie[which.min(tarantino$minutes_in)]
-tarantino$word[which.min(tarantino$minutes_in)]
-tarantino$minutes_in[which.min(tarantino$minutes_in)]
-
-## Leggyakoribb szitokszó
-tarantino[1,1:5]
-countwords <-summary(as.factor(tarantino$word))
-sort(countwords, decreasing=TRUE)[1]
-
-## Shitless
-tarantino$movie[which(tarantino$word =="shitless")]
-
-## Szó hiányos adat
-which(is.na(tarantino$word)) #sor
-tarantino[which(is.na(tarantino$word)),] 
-(tarantino[which(is.na(tarantino$word)),])
-
-length(which(is.na(tarantino$word))) #ezajó
+tarantino$year[tarantino$movie == "Kill Bill: Vol. 1"] <- 2003
+tarantino$year[tarantino$movie == "Kill Bill: Vol. 2"] <- 2004
+tarantino$year[tarantino$movie == "Jackie Brown"] <- 1997
+tarantino$year[tarantino$movie == "Inglorious Basterds"] <- 2009
+tarantino$year[tarantino$movie == "Django Unchained"] <- 2012
+#II.3 feladat: kész
 
 
-## Milyen típusúak
-class(tarantino$word)
-tarantino$word = as.factor(tarantino$word)
+#II.4 feladat: Melyik filmben? - szitokszó legkorábban
 
-class(tarantino$movie)
-tarantino$movie = as.factor(tarantino$movie)
+tarantino$movie[which.min(tarantino$minutes_in)] #Melyik film?
 
-## Leggyakoribb 3 szó
-sort(countwords, decreasing=TRUE)[1:3]
+tarantino$word[which.min(tarantino$minutes_in)] #Melyik szó?
+
+tarantino$minutes_in[which.min(tarantino$minutes_in)] #Hanyadik percben?
+#II.4 feladat: kész
+
+
+#II.5 feladat: Leggyakoribb szitokszó
+
+countwords <- summary(as.factor(tarantino$word))
+
+sort(countwords, decreasing = TRUE)[1]
+#II.5 feladat: kész
+
+
+#II.6 feladat: Melyik filmben - shitless?
+
+tarantino$movie[which(tarantino$word == "shitless")]
+#II.6 feladat: kész
+
+
+#II.7 feladat: Hiányzó adatokat tartalmazó sorok, darabszám
+
+tarantino[which(is.na(tarantino$word)), ] #sorok adattal
+
+length(which(is.na(tarantino$word))) # Hány darab?
+#II.7 feladat: kész
+
+
+#II.8 feladat: Adattípus megállapítása (word, movie), átalakítás
+
+class(tarantino$word) #adattípus
+tarantino$word = as.factor(tarantino$word) #átalakítás
+
+class(tarantino$movie) #adattípus
+tarantino$movie = as.factor(tarantino$movie) #átalakítás
+#II.8 feladat: kész
+
+
+#II.9 Szűrés a leggyakoribb 3 szóhoz tartozó sorokra
+
+sort(countwords, decreasing = TRUE)[1:3] # top3 szó
 
 elsleggyak <- subset(tarantino, tarantino$word == "fucking")
 masleggyak <- subset(tarantino, tarantino$word == "shit")
 harleggyak <- subset(tarantino, tarantino$word == "fuck")
 
-topszavak <- rbind(elsleggyak, masleggyak, harleggyak)
+topszavak <- rbind(elsleggyak, masleggyak, harleggyak) #összekapcsolás
 
-rm(elsleggyak, masleggyak, harleggyak)
+rm(elsleggyak, masleggyak, harleggyak) #felesleges subsetek törlése
+#II.9 feladat: kész
 
-## 10. feladat
 
-levels(prtopszavak$word)
+#II.10 feladat: Kereszttábla a top3 szóval és a filmekkel
 
-topszavak$word <- droplevels(topszavak$word)
-levels(topszavak$word)
+help("table")
+help("droplevels")
 
-table(topszavak$movie, topszavak$word)
+levels(prtopszavak$word) #jelenlegi faktorszint
 
-## Nézd meg, melyik filmben hány halál történt és hány szitokszó hangzott el!
-##Volt olyan film, ahol több halál volt, mint szitkozódás?
+topszavak$word <- droplevels(topszavak$word) #módisított faktoszint
+
+levels(topszavak$word) #eredmény ell.
+
+table(topszavak$movie, topszavak$word) #kereszttábla
+#II.10 feladat: kész
+
+
+#II.11 feladat:
 
 table(tarantino$movie, tarantino$profane)
 
 #Ellenőrzöm a profane típusát, majd átírom numericre.
 class(tarantino$profane)
-tarantino$profane = as.numeric(tarantino$profane) 
+tarantino$profane = as.numeric(tarantino$profane)
 is.numeric(tarantino$profane)
 
- #Felcímkézem
-tarantino$profane <- factor(tarantino$profane,
-                            levels = c(0,1),
-                            labels = c("halal", "szitokszo")
-                            )
- #Kereszttábla
+#Felcímkézem
+tarantino$profane <- factor(
+  tarantino$profane,
+  levels = c(0, 1),
+  labels = c("halal", "szitokszo")
+)
+#Kereszttábla
 table(tarantino$movie, tarantino$profane)
 
- #Van-e olyan, ahol több a halál, mint a szitokszó? 
+#Van-e olyan, ahol több a halál, mint a szitokszó?
 #M: Kill Bill: Vol. 1
 
 ## Fájlok kiírása 11. fel.
 
-write.table(tarantino, file = "data/tarantino.tsv", sep = "\t", row.names = F, fileEncoding = "utf-8")
+write.table(
+  tarantino,
+  file = "data/tarantino.tsv",
+  sep = "\t",
+  row.names = F,
+  fileEncoding = "utf-8"
+)
 
 ## TSV olvasása, majd törlése
 
-tarantinotsv <- read.table(file = "data/tarantino.tsv", header = T, sep = "\t", dec = ".", fileEncoding = "utf-8")
+tarantinotsv <-
+  read.table(
+    file = "data/tarantino.tsv",
+    header = T,
+    sep = "\t",
+    dec = ".",
+    fileEncoding = "utf-8"
+  )
 
 rm(tarantinotsv)
-
