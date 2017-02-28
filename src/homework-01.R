@@ -70,11 +70,16 @@ class(tarantino$word)
 
 #   2/9 szűrés top3 káromkodásra
 
+
 proftable <-sort(table(tarantino$word), decreasing = TRUE)
 proftable <- as.data.frame(proftable) #segéd df
 proftable$Var1  <- as.factor(proftable$Var1)
-szurttarantino<-subset(tarantino, tarantino$word == proftable$Var1[c(1:3)])
+#szurttarantino<-subset(tarantino, tarantino$word == proftable$Var1[c(1:3)])
 #nem értem pontosan, miért enged egyet vagy kettőt, de háromnál már warningot ad
+
+szures1<-subset(tarantino, tarantino$word == proftable$Var1[c(1:2)])
+szures2<-subset(tarantino, tarantino$word == proftable$Var1[3])
+szurttarantino<-rbind(szures1,szures2)
 
 #   2/10 film x top3 szitokszó
 
