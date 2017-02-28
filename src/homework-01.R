@@ -99,6 +99,3 @@ write.table(tarantino, file = "data/tarantino.tsv", sep = "\t", row.names = F,
 tarantino2 <- read.table(file = "data/tarantino.tsv", header = T, sep = "\t",
                          dec = ".", fileEncoding = "utf-8")
 remove(tarantino2)
-
-x <- 1:100
-filter(x, rep(1, 3))
