@@ -1,0 +1,132 @@
+#####################
+# Házi feladat 1.   #
+# Programozás I.    #
+# 2016/17. II félév #
+# Romháti Rita      #
+# 2017.02.28.       #
+#####################
+
+
+
+# 1. Installáld a fivethirtyeight package-et, majd hívd be!#
+
+if (!("fivethirtyeight" %in% installed.packages())) {
+  install.packages("fivethirtyeight")
+}
+library("fivethirtyeight")
+
+
+
+# 2. Keresd meg azt a datasetet, aminek a következő a leírása: #
+# A Complete Catalog Of Every Time Someone Cursed Or Bled Out In A Quentin Tarantino Movie #
+
+data(package = "fivethirtyeight")
+
+# a keresett a dataset a tarantino #
+# dataset beolvasása #
+
+data("tarantino")
+
+
+
+# 3. Egy új year nevű oszlopba írd be a filmek moziba kerülési évét #
+
+tarantino[year]<-NA
+tarantino$year<-
+  ifelse(tarantino$movie=="Reservoir Dogs", 1992,
+  ifelse(tarantino$movie=="Pulp Fiction", 1994,
+  ifelse(tarantino$movie=="Kill Bill: Vol. 1", 2003,
+  ifelse(tarantino$movie=="Kill Bill: Vol. 2", 2004,
+  ifelse(tarantino$movie=="Jackie Brown", 1997,
+  ifelse(tarantino$movie=="Inglorious Basterds", 2009,
+  ifelse (tarantino$movie=="Django Unchained", 2012,
+  NA  )))))))
+
+
+
+# 4. Melyik filmben hangzott el a legkorábban szitokszó? #
+# Melyik szó volt ez és hányadik percben hangzott el? #
+
+tarantino[tarantino$minutes_in==(min(tarantino$minutes_in)), ]
+
+# Reservoir Dogs, 'dick', 0,4 perc #
+
+
+
+
+# 5. Melyik a Tarantino filmek leggyakoribb szitokszava? #
+# Tedd csökkenő sorrendbe a szavakat gyakoriság szerint! #
+
+tarantino$word <- as.factor(tarantino$word)
++sort(summary(tarantino$word), decreasing = T)
+
+# A leggyakoribb:  'fucking' #
+
+
+
+# 6. Melyik filmben hangzott el a shitless szó? #
+
+subset(tarantino, word=="shitless")
+
+# Kill Bill: vol. 2 #
+
+
+
+# 7. Listázd ki azokat a sorokat, ahol a szó hiányos adat! Hány ilyen sor van? #
+
+sum((is.na(tarantino$word))==TRUE)
+
+# 190 #
+
+
+# 8. Nézd meg, milyen adattípusúak a movie és word oszlopok! #
+# Alakítsd át őket factor típusúvá, ha eddig nem tetted valamelyik lépésben (ami nem volt kötelező)! #
+
+class(tarantino$movie)
+class(tarantino$word)
+
+tarantino$movie <- as.factor(tarantino$movie)
+tarantino$word <- as.factor(tarantino$word)
+
+# 9. Szűrd le a data frame-et úgy, hogy csak a 3 leggyakoribb szóhoz tartozó sorok maradjanak benne! #
+
+szo1 <- subset.data.frame(tarantino, tarantino$word == "fucking")
+szo2 <- subset.data.frame(tarantino, tarantino$word == "shit")
+szo3 <- subset.data.frame(tarantino, tarantino$word == "fuck")
+
+
+
+# 10. Nézd meg az R dokumentációban a table függvényt! # 
+# Csináld meg vele a filmek és a 3 leggyakoribb szó kereszttábláját! # 
+# Szükség lesz még a droplevel függvényre is, amivel a felesleges faktorszinteket tudod törölni. #
+# Ennek is nézz utána a dokumentációban! #
+
+szavak <- rbind.data.frame(szo1, szo2, szo3)
+
+szavak$word <- droplevels(szavak$word)
+
+table(szavak$movie, szavak$word)
+
+
+# 11. Nézd meg, melyik filmben hány halál történt és hány szitokszó hangzott el! #
+# Volt olyan film, ahol több halál volt, mint szitkozódás? #
+
+# Nem tudom hogy hol jelenik meg a halálozással kapcsolatos adat :( #
+
+
+# 12. Írd ki tsv formátumba a datasetet egy data nevű mappába datasetneve.tsv néven #
+# (értelemszerűen a dataset neve szerepeljen a tsv nevében)! #
+
+tarantino <- write.table(
+  tarantino,
+  file = "data/tarantino.tsv",
+  sep = "\t",
+  row.names = F,
+  fileEncoding = "utf-8"
+  )
+
+
+# 13. A most kiírt tsv-t olvasd be egy új változóba datasetneve2 néven, majd töröld ki! #
+
+# Ezt nem tudom, törölni így kellene: #
+rm(datasetneve2)
